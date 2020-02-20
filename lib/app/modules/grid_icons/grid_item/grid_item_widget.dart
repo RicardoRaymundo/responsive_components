@@ -1,68 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_components/app/modules/grid_icons/grid_item/grid_item.dart';
 
 class GridItemWidget extends StatefulWidget {
-  Map<String, dynamic> item;
+  GridItem gridItem;
+  Color hoverColor;
+  Color color;
+  Function onClick;
 
-  GridItemWidget({this.item});
+  GridItemWidget({this.gridItem, this.hoverColor = Colors.redAccent, this.color = Colors.purple, this.onClick});
 
   @override
   _GridItemWidgetState createState() => _GridItemWidgetState();
 }
 
 class _GridItemWidgetState extends State<GridItemWidget> {
-  EdgeInsets itemPadding = EdgeInsets.all(10);
   double textPaddingTop = 0;
   double textPaddingBottom = 0;
   bool isHover = false;
 
+
   @override
   Widget build(BuildContext context) {
-    Widget buildDividerOrText() {
-      if (isHover == true) {
-        textPaddingTop = 20;
-        textPaddingBottom = 70;
-        return Padding(
-          padding: EdgeInsets.only(top: textPaddingTop,),
-          child: Text(
-              'Lorem ipsum dolor sit amet consectetur adipiscing elit. Nunc sit amet pulvinar nulla, quis facilisis nulla',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.montserrat(
-                fontSize: 12,
-                color: Colors.white,
-              )),
-        );
-      } else {
-        textPaddingTop = 0;
-        textPaddingBottom = 0;
-        return Container(
-          width: 50,
-          child: Divider(
-            thickness: 2,
-            color: Colors.white,
-          ),
-        );
-      }
-    }
-
-    Widget dividerOrText = buildDividerOrText();
-
+    Widget dividerOrText = _buildDividerOrText();
     return Padding(
-      padding: MediaQuery.of(context).size.width < 768 ? itemPadding : EdgeInsets.all(0),
+      padding: MediaQuery
+          .of(context)
+          .size
+          .width < 768 ? EdgeInsets.all(10) : EdgeInsets.all(0),
       child: Material(
-        color: Colors.transparent,
+        color: widget.color,
         child: InkWell(
-          hoverColor: Color(0xFFEC3642),
+          hoverColor: widget.hoverColor,
           onHover: (bool hover) {
-            print('>>>>>>>>>HOVER' + hover.toString());
             setState(() {
               isHover = hover;
-              dividerOrText = buildDividerOrText();
+              dividerOrText = _buildDividerOrText();
             });
-            print('>>>>>>>>>ISHOVER!!' + isHover.toString());
           },
           onTap: () {
-            print('<<<<<<<<<<TAP');
+            widget.onClick(widget.gridItem);
           },
           child: Container(
             height: 313,
@@ -75,14 +52,14 @@ class _GridItemWidgetState extends State<GridItemWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(
-                  widget.item['icon'],
+                  widget.gridItem.icon,
                   size: 74,
                   color: Colors.white,
                 ),
                 SizedBox(
                   height: 40,
                 ),
-                Text(widget.item['fistTitle'],
+                Text(widget.gridItem.title,
                     style: GoogleFonts.montserrat(
                       fontSize: 16,
                       color: Colors.white,
@@ -90,14 +67,11 @@ class _GridItemWidgetState extends State<GridItemWidget> {
                 SizedBox(
                   height: 10,
                 ),
-                Text(widget.item['secondTitle'],
+                Text(widget.gridItem.subTitle,
                     style: GoogleFonts.montserrat(
                       fontSize: 20,
                       color: Colors.white,
                     )),
-                SizedBox(
-                  height: 0,
-                ),
                 AnimatedPadding(
                   curve: Curves.ease,
                   duration: Duration(milliseconds: 350),
@@ -111,4 +85,40 @@ class _GridItemWidgetState extends State<GridItemWidget> {
       ),
     );
   }
+
+  Widget _buildDividerOrText() {
+    if (isHover == true) {
+      textPaddingTop = 20;
+      textPaddingBottom = 0;
+      return Padding(
+        padding: EdgeInsets.only(top: textPaddingTop,),
+        child: Text(
+          truncateWithEllipsis(120, widget.gridItem.description != null ? widget.gridItem.description : 'Lorem ipsum dolor sit amet consectetur adipiscing elit. Nunc sit amet pulvinar nulla, quis facilisis nulla',
+          ),
+            textAlign: TextAlign.center,
+            style: GoogleFonts.montserrat(
+              fontSize: 12,
+              color: Colors.white,
+            ),
+        ),
+      );
+    } else {
+      textPaddingTop = 0;
+      textPaddingBottom = 0;
+      return Container(
+        width: 50,
+        child: Divider(
+          thickness: 2,
+          color: Colors.white,
+        ),
+      );
+    }
+  }
+
+  String truncateWithEllipsis(int cutoff, String myString) {
+    return (myString.length <= cutoff)
+        ? myString
+        : '${myString.substring(0, cutoff)}...';
+  }
+
 }

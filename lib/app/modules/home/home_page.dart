@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
-import 'package:responsive_components/app/modules/grid_icons/grid_icons_widget.dart';
+import 'package:responsive_components/app/modules/grid_icons/grid_icons.dart';
+import 'package:responsive_components/app/modules/grid_icons/grid_item/grid_item.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -13,45 +14,48 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> items = [
+
+    /// TODO :: Implementar campo description
     {
       'icon': OMIcons.phoneAndroid,
-      'fistTitle': 'SUPPORTED',
-      'secondTitle': 'RESPONSIVE & RETINA',
+      'title': 'CELULAR',
+      'subTitle': 'ANDROID & IOS',
+      'description': 'Telefone celular ou telemóvel é um aparelho de comunicação por ondas eletromagnéticas que permite a transmissão bidirecional de voz e dados utilizáveis em uma área geográfica que se encontra dividida em células, cada uma delas servida por um transmissor/receptor.',
     },
     {
       'icon': OMIcons.cached,
-      'fistTitle': 'INCLUDED',
-      'secondTitle': 'LAYER SLIDER',
+      'title': 'INCLUDED',
+      'subTitle': 'LAYER SLIDER',
     },
     {
       'icon': OMIcons.map,
-      'fistTitle': 'INCLUDED',
-      'secondTitle': '30+ HTML PAGES',
+      'title': 'INCLUDED',
+      'subTitle': '30+ HTML PAGES',
     },
     {
       'icon': OMIcons.accountBalance,
-      'fistTitle': 'INCLUDED',
-      'secondTitle': 'ONEPAGE VERSION',
+      'title': 'INCLUDED',
+      'subTitle': 'ONEPAGE VERSION',
     },
     {
       'icon': OMIcons.settings,
-      'fistTitle': 'BASE ON',
-      'secondTitle': 'LATEST BOOTSTRAP',
+      'title': 'BASE ON',
+      'subTitle': 'LATEST BOOTSTRAP',
     },
     {
       'icon': OMIcons.print,
-      'fistTitle': 'INCLUDED',
-      'secondTitle': '30+ PHOTOSHOP FILE',
+      'title': 'INCLUDED',
+      'subTitle': '30+ PHOTOSHOP FILE',
     },
     {
       'icon': OMIcons.work,
-      'fistTitle': 'INCLUDED',
-      'secondTitle': 'FITNESS ICON PACKAGE',
+      'title': 'INCLUDED',
+      'subTitle': 'FITNESS ICON PACKAGE',
     },
     {
       'icon': OMIcons.keyboard,
-      'fistTitle': 'VALIDATED',
-      'secondTitle': 'HTML & CSS',
+      'title': 'VALIDATED',
+      'subTitle': 'HTML & CSS',
     },
   ];
 
@@ -60,31 +64,18 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.black87,
-          child: GridIconsWidget(items: items),
+          //color: Colors.black87,
+          child: GridIcons(
+            items: items,
+            color: Colors.purple,
+            hoverColor: Colors.deepPurple,
+            onClick: (GridItem item) {
+              print('ITEM---->>>> ' + item.subTitle);
+            },
+          ),
           //child: GridListIconsWidget(),
         ),
       ),
     );
   }
 }
-/*
-ResponsiveGridCol(
-                  xs: 6,
-                  md: 3,
-                  child: Container(
-                    alignment: Alignment.center,
-                    color: Colors.green,
-                    padding: EdgeInsets.symmetric(vertical: 70),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.assignment_turned_in, size: 70,),
-                        SizedBox(height: 20,),
-                        Text('INCLUDED', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                        Text('LAYER SLIDER', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                      ],
-                    ),
-                  ),
-                ),
-*/
